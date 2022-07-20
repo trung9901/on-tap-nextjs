@@ -1,8 +1,19 @@
 import useSWR, { useSWRConfig } from 'swr';
-import { add, removeItem, updateItem } from '../api/products';
+import { add, getItem, removeItem, updateItem } from '../api/products';
 import instance from '../api/instance';
+import { useRouter } from 'next/router';
+
 const useProducts = () => {
-  const { data, error, mutate } = useSWR('/products');
+  const router = useRouter();
+  const { id } = router.query;
+  const getParams = () => {
+    if (id) {
+      return id;
+    } else {
+      return '';
+    }
+  };
+  const { data, error, mutate } = useSWR(`/products/` + getParams());
   //   const { mutate } = useSWRConfig();
   const create = async (item: any) => {
     const product = await add(item);
@@ -20,8 +31,11 @@ const useProducts = () => {
     const refesh = data.filter((item: any) => item.id != id);
     mutate(refesh);
   };
-
-  return { data, error, create, update, remove };
+  const get = async (id: any) => {
+    const product = await getItem(id);
+    mutate(product);
+  };
+  return { data, error, create, update, remove, get };
 };
 
 export default useProducts;

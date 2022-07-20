@@ -2,8 +2,21 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 import instance from '../api/instance';
-
+import { useRouter } from 'next/router';
 function MyApp({ Component, pageProps }: AppProps) {
+  //
+  // const router = useRouter();
+  // const { id } = router.query;
+
+  // function getParam() {
+  //   const param = '/' + id;
+  //   if (id) {
+  //     return param;
+  //   } else {
+  //     return '';
+  //   }
+  // }
+  //
   return (
     <SWRConfig
       value={{

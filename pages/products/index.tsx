@@ -8,11 +8,11 @@ const ProductPage = (props: Props) => {
   const { data: products, error, create, remove, update } = useProducts();
   if (error) return <div className="">failed to load</div>;
   if (!products) return <div className="">loading...</div>;
-  console.log(products);
+  // console.log(products);
   return (
     <div>
       <div className="">
-        {products.map((item: any) => (
+        {products?.map((item: any) => (
           // eslint-disable-next-line react/jsx-key
           <div className="" key={item.id}>
             <div className="">

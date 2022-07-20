@@ -1,20 +1,22 @@
 import useSWR, { useSWRConfig } from 'swr';
-import { add, getItem, removeItem, updateItem } from '../api/products';
+import { add, removeItem, updateItem } from '../api/products';
 import instance from '../api/instance';
 import { useRouter } from 'next/router';
 
 const useProducts = () => {
   const router = useRouter();
   const { id } = router.query;
-  const getParams = () => {
-    if (id) {
-      return id;
-    } else {
-      return '';
-    }
-  };
-  const { data, error, mutate } = useSWR(`/products/` + getParams());
-  //   const { mutate } = useSWRConfig();
+  // const getParams = () => {
+  //   if (id) {
+  //     return id;
+  //   } else {
+  //     return '';
+  //   }
+  // };
+  // const { data, error, mutate } = useSWR(`/products/` + getParams());
+  const { data, error, mutate } = useSWR(
+    id !== undefined ? `/products/${id}` : `/products/`
+  );
   const create = async (item: any) => {
     const product = await add(item);
     mutate([...data, product]);
@@ -27,15 +29,14 @@ const useProducts = () => {
     mutate(afterUpdate);
   };
   const remove = async (id: any) => {
-    await removeItem(id);
-    const refesh = data.filter((item: any) => item.id != id);
-    mutate(refesh);
+    if (confirm('Are you sure you want to remove')) {
+      await removeItem(id);
+      const refesh = data.filter((item: any) => item.id != id);
+      mutate(refesh);
+    }
   };
-  const get = async (id: any) => {
-    const product = await getItem(id);
-    mutate(product);
-  };
-  return { data, error, create, update, remove, get };
+
+  return { data, error, create, update, remove };
 };
 
 export default useProducts;

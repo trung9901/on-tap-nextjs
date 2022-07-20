@@ -8,6 +8,3 @@ export const updateItem = (id: any, data: any) => {
 export const removeItem = (id: any) => {
   return instance.delete(`/products/${id}`);
 };
-export const getItem = (id: any) => {
-  return instance.get(`products/${id}`);
-};

@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 import instance from '../api/instance';
 import { useRouter } from 'next/router';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function MyApp({ Component, pageProps }: AppProps) {
   //
   // const router = useRouter();
